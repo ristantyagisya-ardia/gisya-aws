@@ -1,11 +1,13 @@
 # Base image
 FROM php:8.1-fpm
 
-# Install required dependencies
+# Update package manager and install dependencies
 RUN apt-get update && apt-get install -y \
     libpq-dev \
-    && docker-php-ext-install pdo pdo_pgsql \
-    && apt-get clean
+    git \
+    unzip \
+    && docker-php-ext-configure pdo_pgsql \
+    && docker-php-ext-install pdo_pgsql
 
 # Copy application files
 COPY index.php /var/www/html/
