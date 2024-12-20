@@ -1,8 +1,11 @@
 # Base image
 FROM php:8.1-fpm
 
-# Install PostgreSQL extension
-RUN docker-php-ext-install pdo pdo_pgsql
+# Install required dependencies
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    && docker-php-ext-install pdo pdo_pgsql \
+    && apt-get clean
 
 # Copy application files
 COPY index.php /var/www/html/
